@@ -10,15 +10,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'net.bytebuddy:byte-buddy:1.12.23'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'net.bytebuddy:byte-buddy:1.12.23'
     jar {
         from {
             configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
         }
         manifest {
-            attributes "Main-Class": 'com.kodilla.bytebuddy.BuddyApp'
+            attributes "Premain-Class": 'com.kodilla.agent.UserAgent',
+                    "Can-Redefine-Classes" : "true",
+                    "Can-Retransform-Classes" : "true"
+
         }
     }
 }
